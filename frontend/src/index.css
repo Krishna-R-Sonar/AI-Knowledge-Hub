@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark mode support with proper contrast ratios */
+@layer base {
+  :root {
+    /* Light theme - Blue primary colors with proper contrast */
+    --color-primary-50: 239 246 255;   /* #eff6ff - Very light blue */
+    --color-primary-100: 219 234 254;  /* #dbeafe - Light blue */
+    --color-primary-200: 191 219 254;  /* #bfdbfe - Soft blue */
+    --color-primary-300: 147 197 253;  /* #93c5fd - Medium blue */
+    --color-primary-400: 96 165 250;   /* #60a5fa - Bright blue */
+    --color-primary-500: 59 130 246;   /* #3b82f6 - Primary blue */
+    --color-primary-600: 37 99 235;    /* #2563eb - Dark blue */
+    --color-primary-700: 29 78 216;    /* #1d4ed8 - Deeper blue */
+    --color-primary-800: 30 64 175;    /* #1e40af - Deep blue */
+    --color-primary-900: 30 58 138;   /* #1e3a8a - Darkest blue */
+  }
+  
+  .dark {
+    /* Dark theme - Inverted primary colors with proper contrast */
+    --color-primary-50: 15 23 42;      /* #0f172a - Very dark slate */
+    --color-primary-100: 30 41 59;    /* #1e293b - Dark slate */
+    --color-primary-200: 51 65 85;    /* #334155 - Medium slate */
+    --color-primary-300: 71 85 105;   /* #475569 - Light slate */
+    --color-primary-400: 100 116 139; /* #64748b - Lighter slate */
+    --color-primary-500: 148 163 184; /* #94a3b8 - Medium light slate */
+    --color-primary-600: 203 213 225; /* #cbd5e1 - Light slate */
+    --color-primary-700: 226 232 240; /* #e2e8f0 - Very light slate */
+    --color-primary-800: 241 245 249; /* #f1f5f9 - Almost white slate */
+    --color-primary-900: 248 250 252; /* #f8fafc - Nearly white */
+  }
+}
+
+/* Custom container utilities */
+@layer utilities {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* xs */
+  @media (min-width: 475px) {
+    .container {
+      max-width: 475px;
+    }
+  }
+
+  /* sm */
+  @media (min-width: 640px) {
+    .container {
+      max-width: 640px;
+    }
+  }
+
+  /* md */
+  @media (min-width: 768px) {
+    .container {
+      max-width: 768px;
+    }
+  }
+
+  /* lg */
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+
+  /* xl */
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+
+  /* 2xl */
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 1536px;
+    }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus styles */
+.focus-ring:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Dark mode styles with proper contrast ratios */
+.dark .bg-gray-50 {
+  background-color: rgb(15 23 42); /* #0f172a - Very dark slate for main background */
+}
+
+.dark .bg-white {
+  background-color: rgb(30 41 59); /* #1e293b - Dark slate for cards/sidebars */
+}
+
+.dark .bg-gray-100 {
+  background-color: rgb(51 65 85); /* #334155 - Medium dark for hover states */
+}
+
+.dark .bg-gray-200 {
+  background-color: rgb(71 85 105); /* #475569 - Medium slate for active states */
+}
+
+.dark .border-gray-200 {
+  border-color: rgb(71 85 105); /* #475569 - Medium slate for borders */
+}
+
+.dark .border-gray-300 {
+  border-color: rgb(100 116 139); /* #64748b - Lighter slate for subtle borders */
+}
+
+.dark .border-gray-700 {
+  border-color: rgb(51 65 85); /* #334155 - Medium dark for strong borders */
+}
+
+.dark .text-gray-900 {
+  color: rgb(248 250 252); /* #f8fafc - Nearly white for primary text */
+}
+
+.dark .text-gray-800 {
+  color: rgb(241 245 249); /* #f1f5f9 - Very light for secondary text */
+}
+
+.dark .text-gray-700 {
+  color: rgb(226 232 240); /* #e2e8f0 - Light for tertiary text */
+}
+
+.dark .text-gray-600 {
+  color: rgb(203 213 225); /* #cbd5e1 - Medium light for quaternary text */
+}
+
+.dark .text-gray-500 {
+  color: rgb(148 163 184); /* #94a3b8 - Medium for muted text */
+}
+
+.dark .text-gray-400 {
+  color: rgb(100 116 139); /* #64748b - Medium dark for very muted text */
+}
+
+.dark .text-gray-300 {
+  color: rgb(203 213 225); /* #cbd5e1 - Medium light for interactive text */
+}
+
+.dark .hover\:bg-gray-50:hover {
+  background-color: rgb(51 65 85); /* #334155 - Medium dark for hover */
+}
+
+.dark .hover\:bg-gray-100:hover {
+  background-color: rgb(71 85 105); /* #475569 - Medium slate for hover */
+}
+
+.dark .hover\:bg-gray-700:hover {
+  background-color: rgb(71 85 105); /* #475569 - Medium slate for hover */
+}
+
+.dark .hover\:text-gray-900:hover {
+  color: rgb(248 250 252); /* #f8fafc - Nearly white for hover */
+}
+
+.dark .hover\:text-gray-600:hover {
+  color: rgb(203 213 225); /* #cbd5e1 - Medium light for hover */
+}
+
+.dark .hover\:text-gray-300:hover {
+  color: rgb(226 232 240); /* #e2e8f0 - Light for hover */
+}
+
+/* Additional dark mode styles for better UX */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: rgb(51 65 85); /* #334155 - Medium dark for form inputs */
+  border-color: rgb(71 85 105); /* #475569 - Medium slate for borders */
+  color: rgb(248 250 252); /* #f8fafc - Nearly white for text */
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: rgb(148 163 184); /* #94a3b8 - Medium light for focus */
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1); /* Subtle focus ring */
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgb(100 116 139); /* #64748b - Medium dark for placeholders */
+}
+
+/* Card and surface styles */
+.dark .bg-white {
+  background-color: rgb(30 41 59); /* #1e293b - Dark slate for cards */
+}
+
+.dark .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Button states in dark mode */
+.dark .bg-primary-600 {
+  background-color: rgb(148 163 184); /* #94a3b8 - Medium light for primary buttons */
+}
+
+.dark .hover\:bg-primary-700:hover {
+  background-color: rgb(100 116 139); /* #64748b - Medium dark for hover */
+}
+
+.dark .text-primary-600 {
+  color: rgb(148 163 184); /* #94a3b8 - Medium light for primary text */
+}
+
+.dark .border-primary-200 {
+  border-color: rgb(71 85 105); /* #475569 - Medium slate for primary borders */
+}
+
+/* Dark mode scrollbar with proper contrast */
+.dark ::-webkit-scrollbar-track {
+  background: rgb(30 41 59); /* #1e293b - Dark slate for track */
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(71 85 105); /* #475569 - Medium slate for thumb */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(100 116 139); /* #64748b - Lighter slate for hover */
+}
+
+/* Toast styling for both themes with proper contrast */
+:root {
+  --toast-bg: #374151; /* #374151 - Medium gray for light theme */
+  --toast-color: #ffffff; /* #ffffff - White text for contrast */
+}
+
+.dark {
+  --toast-bg: #1e293b; /* #1e293b - Dark slate for dark theme */
+  --toast-color: #f8fafc; /* #f8fafc - Nearly white text for contrast */
+}
