@@ -59,4 +59,5 @@ const documentOwnerOrAdmin = async (req, res, next) => {
   }
 };
 
-module.exports = { auth, adminAuth, documentOwnerOrAdmin };
+module.exports = { auth, adminAuth, documentOwnerOrAdmin 
+};

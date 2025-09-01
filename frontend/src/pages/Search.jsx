@@ -1,20 +1,29 @@
 // frontend/src/pages/Search.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from '../utils/api'; // Updated import
-import { Search as SearchIcon, FileText, User, Clock } from 'lucide-react';
+import { 
+  Search as SearchIcon, 
+  FileText, 
+  Clock, 
+  User, 
+  Tag, 
+  Sparkles,
+  Filter,
+  Loader2
+} from 'lucide-react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 import { formatDistanceToNow } from 'date-fns';
-import { Loader2 } from 'lucide-react';
 
 const Search = () => {
-  const [searchType, setSearchType] = useState('text');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [searchType, setSearchType] = useState('combined');
   const [results, setResults] = useState([]);
-  const [availableTags, setAvailableTags] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [availableTags, setAvailableTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
     fetchTags();
@@ -29,155 +38,203 @@ const Search = () => {
     }
   };
 
-  const handleTagToggle = (tag) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
-  };
-
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
+    
+    setCurrentPage(1);
+    performSearch();
+  };
+
+  const performSearch = async () => {
+    if (!searchQuery.trim()) return;
+
     setLoading(true);
     try {
-      const response = await axios.get(`/api/search/${searchType}`, {
-        params: { q: searchQuery, page: currentPage },
+      let endpoint = '';
+      let params = new URLSearchParams({
+        q: searchQuery,
+        page: currentPage,
+        limit: 12
       });
+
+      switch (searchType) {
+        case 'text':
+          endpoint = '/api/search/text';
+          break;
+        case 'semantic':
+          endpoint = '/api/search/semantic';
+          break;
+        case 'tags':
+          endpoint = '/api/search/tags';
+          params = new URLSearchParams({
+            tags: selectedTags.join(','),
+            page: currentPage,
+            limit: 12
+          });
+          break;
+        case 'combined':
+        default:
+          endpoint = '/api/search/combined';
+          break;
+      }
+
+      const response = await axios.get(endpoint, { params });
       setResults(response.data.documents);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Search error:', error);
+      toast.error('Search failed');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleTagSearch = async () => {
-    if (selectedTags.length === 0) return;
-    setLoading(true);
-    try {
-      const response = await axios.get('/api/search/tags', {
-        params: { tags: selectedTags.join(','), page: currentPage },
-      });
-      setResults(response.data.documents);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error('Tag search error:', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleTagToggle = (tag) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
   };
+
+  const handleTagSearch = () => {
+    if (selectedTags.length === 0) {
+      toast.error('Please select at least one tag');
+      return;
+    }
+    setSearchType('tags');
+    setCurrentPage(1);
+    performSearch();
+  };
+
+  useEffect(() => {
+    if (searchQuery && searchType !== 'tags') {
+      performSearch();
+    }
+  }, [currentPage]);
 
   const getSearchTypeLabel = (type) => {
-    const labels = {
-      text: 'Text Search',
-      semantic: 'AI Semantic Search',
-      tags: 'Tag-based Search',
-      combined: 'Combined Search',
-    };
-    return labels[type] || type;
+    switch (type) {
+      case 'text': return 'Text Search';
+      case 'semantic': return 'AI Semantic Search';
+      case 'tags': return 'Tag-based Search';
+      case 'combined': return 'Combined Search';
+      default: return type;
+    }
   };
 
   const getSearchTypeIcon = (type) => {
-    const icons = {
-      text: <SearchIcon className="h-4 w-4" />,
-      semantic: <FileText className="h-4 w-4" />,
-      tags: <Tag className="h-4 w-4" />,
-      combined: <SearchIcon className="h-4 w-4" />,
-    };
-    return icons[type] || <SearchIcon className="h-4 w-4" />;
+    switch (type) {
+      case 'text': return <SearchIcon className="h-4 w-4" />;
+      case 'semantic': return <Sparkles className="h-4 w-4" />;
+      case 'tags': return <Tag className="h-4 w-4" />;
+      case 'combined': return <Filter className="h-4 w-4" />;
+      default: return <SearchIcon className="h-4 w-4" />;
+    }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Search Documents</h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Search Documents</h1>
+        <p className="text-gray-600">Find documents using different search methods</p>
+      </div>
 
-      <div className="bg-white rounded-lg shadow p-6 mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-medium text-gray-900">Search Options</h2>
-          <div className="flex space-x-2">
-            {['text', 'semantic', 'tags'].map((type) => (
-              <button
-                key={type}
-                onClick={() => setSearchType(type)}
-                className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-sm font-medium transition-colors ${
-                  searchType === type
-                    ? 'bg-primary-100 text-primary-800 border-primary-300'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                {getSearchTypeIcon(type)}
-                {getSearchTypeLabel(type)}
-              </button>
-            ))}
+      {/* Search Controls */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="space-y-6">
+          {/* Search Type Selection */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">Search Type</label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {['combined', 'text', 'semantic', 'tags'].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setSearchType(type)}
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md border text-sm font-medium transition-colors ${
+                    searchType === type
+                      ? 'bg-primary-100 text-primary-800 border-primary-300'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {getSearchTypeIcon(type)}
+                  {getSearchTypeLabel(type)}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {searchType !== 'tags' && (
-          <form onSubmit={handleSearch} className="space-y-4">
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Enter your search query..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  />
+          {/* Text Search */}
+          {searchType !== 'tags' && (
+            <form onSubmit={handleSearch} className="space-y-4">
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <div className="relative">
+                    <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Enter your search query..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading || !searchQuery.trim()}
+                  className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    'Search'
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {/* Tag Search */}
+          {searchType === 'tags' && (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Tags</label>
+                <div className="flex flex-wrap gap-2">
+                  {availableTags.map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => handleTagToggle(tag)}
+                      className={`px-3 py-1 text-sm rounded-full border transition-colors ${
+                        selectedTags.includes(tag)
+                          ? 'bg-primary-100 text-primary-800 border-primary-300'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
               </div>
               <button
-                type="submit"
-                disabled={loading || !searchQuery.trim()}
+                onClick={handleTagSearch}
+                disabled={loading || selectedTags.length === 0}
                 className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  'Search'
+                  'Search by Tags'
                 )}
               </button>
             </div>
-          </form>
-        )}
-
-        {searchType === 'tags' && (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Select Tags</label>
-              <div className="flex flex-wrap gap-2">
-                {availableTags.map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => handleTagToggle(tag)}
-                    className={`px-3 py-1 text-sm rounded-full border transition-colors ${
-                      selectedTags.includes(tag)
-                        ? 'bg-primary-100 text-primary-800 border-primary-300'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <button
-              onClick={handleTagSearch}
-              disabled={loading || selectedTags.length === 0}
-              className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                'Search by Tags'
-              )}
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
+      {/* Search Results */}
       {results.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -251,6 +308,7 @@ const Search = () => {
             ))}
           </div>
 
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center space-x-2">
               <button
@@ -287,6 +345,7 @@ const Search = () => {
         </div>
       )}
 
+      {/* No Results */}
       {!loading && searchQuery && results.length === 0 && (
         <div className="text-center py-12">
           <SearchIcon className="mx-auto h-12 w-12 text-gray-400" />
@@ -297,6 +356,7 @@ const Search = () => {
         </div>
       )}
 
+      {/* Search Tips */}
       {!searchQuery && !loading && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
           <h3 className="text-lg font-medium text-blue-900 mb-4">Search Tips</h3>

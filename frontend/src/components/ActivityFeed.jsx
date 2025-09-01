@@ -1,7 +1,7 @@
 // frontend/src/components/ActivityFeed.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from '../utils/api'; // Updated import
+import axios from 'axios';
 import { Clock, Edit3, User } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
