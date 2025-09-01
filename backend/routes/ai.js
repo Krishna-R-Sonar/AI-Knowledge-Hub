@@ -1,3 +1,4 @@
+// backend/routes/ai.js
 const express = require('express');
 const Document = require('../models/Document');
 const { auth } = require('../middleware/auth');
