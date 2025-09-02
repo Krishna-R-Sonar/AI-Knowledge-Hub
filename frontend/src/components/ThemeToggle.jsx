@@ -8,18 +8,19 @@ const ThemeToggle = ({ className = '' }) => {
   return (
     <button
       onClick={toggleTheme}
-      className={`p-2 rounded-lg transition-colors duration-200 ${
-        isDark 
-          ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-lg' 
-          : 'bg-slate-200 hover:bg-slate-300 text-slate-700 shadow-md'
-      } ${className}`}
+      className={`relative inline-flex items-center h-8 w-14 rounded-full p-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${isDark ? 'bg-primary-800' : 'bg-gray-200'} ${className}`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
-      {isDark ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
+      <span
+        className={`flex items-center justify-center h-6 w-6 rounded-full bg-white shadow-md transform transition-transform duration-300 ${isDark ? 'translate-x-6' : 'translate-x-0'}`}
+      >
+        {isDark ? (
+          <Sun className="h-4 w-4 text-amber-500" />
+        ) : (
+          <Moon className="h-4 w-4 text-gray-600" />
+        )}
+      </span>
     </button>
   );
 };
