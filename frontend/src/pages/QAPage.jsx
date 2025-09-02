@@ -230,7 +230,7 @@ const QAPage = () => {
                             Used {qa.documentsUsed} documents
                           </span>
                         </div>
-                        <div className="text-gray-700 bg-blue-50 p-3 rounded border max-h-32 overflow-y-auto">
+                        <div className="text-gray-700 bg-slate-500 p-3 rounded border max-h-32 overflow-y-auto">
                           {qa.answer}
                         </div>
                       </div>
