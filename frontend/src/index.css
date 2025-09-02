@@ -3,34 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark mode support with enhanced contrast ratios */
+/* Dark mode support with proper contrast ratios */
 @layer base {
   :root {
     /* Light theme - Blue primary colors with proper contrast */
-    --color-primary-50: 239 246 255;   /* #eff6ff - Very light blue */
-    --color-primary-100: 219 234 254;  /* #dbeafe - Light blue */
-    --color-primary-200: 191 219 254;  /* #bfdbfe - Soft blue */
-    --color-primary-300: 147 197 253;  /* #93c5fd - Medium blue */
-    --color-primary-400: 96 165 250;   /* #60a5fa - Bright blue */
-    --color-primary-500: 59 130 246;   /* #3b82f6 - Primary blue */
-    --color-primary-600: 37 99 235;    /* #2563eb - Dark blue */
-    --color-primary-700: 29 78 216;    /* #1d4ed8 - Deeper blue */
-    --color-primary-800: 30 64 175;    /* #1e40af - Deep blue */
-    --color-primary-900: 30 58 138;    /* #1e3a8a - Darkest blue */
+    --color-primary-50: 239 246 255;
+    --color-primary-100: 219 234 254;
+    --color-primary-200: 191 219 254;
+    --color-primary-300: 147 197 253;
+    --color-primary-400: 96 165 250;
+    --color-primary-500: 59 130 246;
+    --color-primary-600: 37 99 235;
+    --color-primary-700: 29 78 216;
+    --color-primary-800: 30 64 175;
+    --color-primary-900: 30 58 138;
   }
-
+  
   .dark {
-    /* Dark theme - Refined slate colors for better contrast */
-    --color-primary-50: 17 24 39;      /* #111827 - Very dark slate */
-    --color-primary-100: 31 41 55;     /* #1f2937 - Dark slate */
-    --color-primary-200: 55 65 81;     /* #374151 - Medium slate */
-    --color-primary-300: 75 85 99;     /* #4b5563 - Medium light slate */
-    --color-primary-400: 107 114 128;  /* #6b7280 - Light slate */
-    --color-primary-500: 148 163 184;  /* #94a3b8 - Medium light slate */
-    --color-primary-600: 203 213 225;  /* #cbd5e1 - Light slate */
-    --color-primary-700: 226 232 240;  /* #e2e8f0 - Very light slate */
-    --color-primary-800: 241 245 249;  /* #f1f5f9 - Almost white slate */
-    --color-primary-900: 249 250 251;  /* #f9fafb - Nearly white */
+    /* Dark theme - Inverted primary colors with proper contrast */
+    --color-primary-50: 15 23 42;
+    --color-primary-100: 30 41 59;
+    --color-primary-200: 51 65 85;
+    --color-primary-300: 71 85 105;
+    --color-primary-400: 100 116 139;
+    --color-primary-500: 148 163 184;
+    --color-primary-600: 203 213 225;
+    --color-primary-700: 226 232 240;
+    --color-primary-800: 241 245 249;
+    --color-primary-900: 248 250 252;
   }
 }
 
@@ -43,36 +43,42 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
+
   /* xs */
   @media (min-width: 475px) {
     .container {
       max-width: 475px;
     }
   }
+
   /* sm */
   @media (min-width: 640px) {
     .container {
       max-width: 640px;
     }
   }
+
   /* md */
   @media (min-width: 768px) {
     .container {
       max-width: 768px;
     }
   }
+
   /* lg */
   @media (min-width: 1024px) {
     .container {
       max-width: 1024px;
     }
   }
+
   /* xl */
   @media (min-width: 1280px) {
     .container {
       max-width: 1280px;
     }
   }
+
   /* 2xl */
   @media (min-width: 1536px) {
     .container {
@@ -81,20 +87,22 @@
   }
 }
 
-/* Enhanced scrollbar for both themes */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: rgb(var(--color-primary-100));
-  border-radius: 4px;
+  background: #f1f5f9;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--color-primary-400));
-  border-radius: 4px;
+  background: #cbd5e1;
+  border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--color-primary-500));
+  background: #94a3b8;
 }
 
 /* Smooth transitions */
@@ -102,49 +110,164 @@
   transition: all 0.2s ease-in-out;
 }
 
-/* Enhanced focus styles */
+/* Focus styles */
 .focus-ring:focus {
-  outline: 2px solid rgb(var(--color-primary-500));
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
-/* Dark mode form elements */
+/* Dark mode styles with proper contrast ratios */
+.dark .bg-gray-50 {
+  background-color: rgb(15 23 42);
+}
+
+.dark .bg-white {
+  background-color: rgb(30 41 59);
+}
+
+.dark .bg-gray-100 {
+  background-color: rgb(51 65 85);
+}
+
+.dark .bg-gray-200 {
+  background-color: rgb(71 85 105);
+}
+
+.dark .border-gray-200 {
+  border-color: rgb(71 85 105);
+}
+
+.dark .border-gray-300 {
+  border-color: rgb(100 116 139);
+}
+
+.dark .border-gray-700 {
+  border-color: rgb(51 65 85);
+}
+
+.dark .text-gray-900 {
+  color: rgb(248 250 252);
+}
+
+.dark .text-gray-800 {
+  color: rgb(241 245 249);
+}
+
+.dark .text-gray-700 {
+  color: rgb(226 232 240);
+}
+
+.dark .text-gray-600 {
+  color: rgb(203 213 225);
+}
+
+.dark .text-gray-500 {
+  color: rgb(148 163 184);
+}
+
+.dark .text-gray-400 {
+  color: rgb(100 116 139);
+}
+
+.dark .text-gray-300 {
+  color: rgb(203 213 225);
+}
+
+.dark .hover\:bg-gray-50:hover {
+  background-color: rgb(51 65 85);
+}
+
+.dark .hover\:bg-gray-100:hover {
+  background-color: rgb(71 85 105);
+}
+
+.dark .hover\:bg-gray-700:hover {
+  background-color: rgb(71 85 105);
+}
+
+.dark .hover\:text-gray-900:hover {
+  color: rgb(248 250 252);
+}
+
+.dark .hover\:text-gray-600:hover {
+  color: rgb(203 213 225);
+}
+
+.dark .hover\:text-gray-300:hover {
+  color: rgb(226 232 240);
+}
+
+/* Additional dark mode styles for better UX */
 .dark input,
 .dark textarea,
 .dark select {
-  background-color: rgb(var(--color-primary-200));
-  border-color: rgb(var(--color-primary-400));
-  color: rgb(var(--color-primary-900));
+  background-color: rgb(51 65 85);
+  border-color: rgb(71 85 105);
+  color: rgb(248 250 252);
 }
 
 .dark input:focus,
 .dark textarea:focus,
 .dark select:focus {
-  border-color: rgb(var(--color-primary-600));
-  box-shadow: 0 0 0 3px rgba(var(--color-primary-600), 0.2);
+  border-color: rgb(148 163 184);
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
 }
 
 .dark input::placeholder,
 .dark textarea::placeholder {
-  color: rgb(var(--color-primary-400));
+  color: rgb(100 116 139);
 }
 
-/* Toast styling for both themes */
+/* Card and surface styles */
+.dark .bg-white {
+  background-color: rgb(30 41 59);
+}
+
+.dark .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Button states in dark mode */
+.dark .bg-primary-600 {
+  background-color: rgb(148 163 184);
+}
+
+.dark .hover\:bg-primary-700:hover {
+  background-color: rgb(100 116 139);
+}
+
+.dark .text-primary-600 {
+  color: rgb(148 163 184);
+}
+
+.dark .border-primary-200 {
+  border-color: rgb(71 85 105);
+}
+
+/* Dark mode scrollbar with proper contrast */
+.dark ::-webkit-scrollbar-track {
+  background: rgb(30 41 59);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(71 85 105);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(100 116 139);
+}
+
+/* Toast styling for both themes with proper contrast */
 :root {
-  --toast-bg: rgb(var(--color-primary-200));
-  --toast-color: rgb(var(--color-primary-900));
+  --toast-bg: #374151;
+  --toast-color: #ffffff;
 }
 
 .dark {
-  --toast-bg: rgb(var(--color-primary-100));
-  --toast-color: rgb(var(--color-primary-900));
-}
-
-/* Custom toggle switch styling */
-.theme-toggle-track {
-  transition: background-color 0.3s ease-in-out;
-}
-
-.theme-toggle-thumb {
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  --toast-bg: #1e293b;
+  --toast-color: #f8fafc;
 }
