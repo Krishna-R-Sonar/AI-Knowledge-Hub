@@ -82,12 +82,9 @@ The frontend will automatically proxy API calls to the backend.
 
 ### 5. Start the application
 ```bash
-# Development mode (both frontend and backend)
-npm run dev
-
-# Or start separately:
-npm run server    # Backend only
-npm run client    # Frontend only
+# start separately:
+node server.js    # Backend only
+npm run dev    # Frontend only
 ```
 
 ## 🌐 Usage
@@ -199,10 +196,6 @@ The application is built with a mobile-first approach using Tailwind CSS:
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
-## 📝 License
-
-This project is licensed under the MIT License.
 
 ## 🆘 Support
 
